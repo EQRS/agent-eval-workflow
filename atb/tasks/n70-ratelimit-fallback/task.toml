@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n70-ratelimit-fallback"
+source = "ATB 扩题第 10 批（收尾）"
+
+[metadata]
+difficulty = "L3"
+category = "security"
+machine_type = "judgment"
+tags = ["atb","security","ratelimit","fallback","availability"]
+subject = "限流器的故障降级策略"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

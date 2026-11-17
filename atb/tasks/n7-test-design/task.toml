@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n7-test-design"
+source = "ATB 领域扩展"
+
+[metadata]
+difficulty = "L2"
+category = "testing"
+machine_type = "judgment"
+tags = ["atb","testing","coverage","false-green","flake"]
+subject = "端到端测试覆盖提升方案"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师", "性能工程师", "SRE（运维）"]

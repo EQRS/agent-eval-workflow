@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n12-data-quality"
+source = "ATB 领域扩展"
+
+[metadata]
+difficulty = "L2"
+category = "data-quality"
+machine_type = "judgment"
+tags = ["atb","data-quality","validation","bypass","dry"]
+subject = "数据校验规则集中化方案"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

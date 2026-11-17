@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n19-content-moderation"
+source = "ATB 扩题第 2 批"
+
+[metadata]
+difficulty = "L3"
+category = "security"
+machine_type = "judgment"
+tags = ["atb","security","moderation","llm","policy"]
+subject = "AI 内容审核接入方案"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

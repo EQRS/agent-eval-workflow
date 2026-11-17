@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n58-cache-invalidation"
+source = "ATB 扩题第 7 批（四类考点）"
+
+[metadata]
+difficulty = "L3"
+category = "performance"
+machine_type = "judgment"
+tags = ["atb","performance","cache","invalidate","pubsub"]
+subject = "列表数据的缓存与失效"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

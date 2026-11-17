@@ -1,0 +1,22 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/<领域>-<题目名>"
+
+[metadata]
+difficulty = "L2"          # L1 单步 / L2 多步 / L3 开放
+category = "<领域>"         # 如 security / consistency / migration
+machine_type = "judgment"   # mechanical | judgment
+tags = ["atb", "<领域>", "<关键特征>"]
+
+[verifier]
+criteria = "tests/criteria.md"   # 判据清单（agent 不可见）
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s = 1                       # S 组 agent 数
+t = 3                       # T 组 agent 数
+roles = ["安全工程师", "性能工程师", "SRE（运维）"]

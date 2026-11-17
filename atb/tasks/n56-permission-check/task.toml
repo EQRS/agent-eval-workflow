@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n56-permission-check"
+source = "ATB 扩题第 7 批（四类考点）"
+
+[metadata]
+difficulty = "L2"
+category = "authorization"
+machine_type = "judgment"
+tags = ["atb","authorization","permission","guard","assert"]
+subject = "统一的写接口权限校验"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

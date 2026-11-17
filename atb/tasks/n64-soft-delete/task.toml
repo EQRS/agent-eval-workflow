@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n64-soft-delete"
+source = "ATB 扩题第 9 批（系统性）"
+
+[metadata]
+difficulty = "L3"
+category = "consistency"
+machine_type = "judgment"
+tags = ["atb","consistency","soft-delete","unique-index","restore"]
+subject = "统一软删除机制"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

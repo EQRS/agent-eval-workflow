@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n68-search-ranking"
+source = "ATB 扩题第 10 批（收尾）"
+
+[metadata]
+difficulty = "L3"
+category = "search"
+machine_type = "judgment"
+tags = ["atb","search","search","ranking","bm25"]
+subject = "搜索结果的排序优化"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

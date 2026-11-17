@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/m-11-fulltext-search"
+source = "ATB 首轮实测"
+
+[metadata]
+difficulty = "L2"
+category = "search"
+machine_type = "judgment"
+tags = ["atb","search","sql-injection","fts5","index-rebuild"]
+subject = "插件全文搜索方案"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"          # 按清单逐项打勾
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师", "性能工程师", "SRE（运维）"]

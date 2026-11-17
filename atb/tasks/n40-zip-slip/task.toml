@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n40-zip-slip"
+source = "ATB 扩题第 3 批（40→80）"
+
+[metadata]
+difficulty = "L3"
+category = "file-upload"
+machine_type = "judgment"
+tags = ["atb","file-upload","zip","slip","archive"]
+subject = "插件包上传与解压方案"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

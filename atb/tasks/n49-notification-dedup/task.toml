@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n49-notification-dedup"
+source = "ATB 扩题第 5 批（L3-L4 标准）"
+
+[metadata]
+difficulty = "L3"
+category = "notifications"
+machine_type = "judgment"
+tags = ["atb","notifications","notification","dedup","cleanup"]
+subject = "站内通知的去重与清理"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

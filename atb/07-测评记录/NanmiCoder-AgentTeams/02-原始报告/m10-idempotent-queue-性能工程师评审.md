@@ -1,0 +1,23 @@
+# m10-idempotent-queue 性能工程师评审
+
+> 任务 t8 · 成员 e3-fixer · 状态 completed
+> 日期：2026-11-17
+
+---
+
+m10-idempotent-queue 性能视角评审完成。落盘：atb/tasks/m10-idempotent-queue/review-perf.md（168 行，只读评审，未改源码）。
+
+结论：按现方案落地会让「同一天不再重复调用 GitHub API」这个目标彻底落空，并把配额消耗放大 N 倍。方案 §2 把去重粒度从「天」改成「天×数据源」，而它要解决的正是「同一天被多次触发」——方向相反。
+
+摘要前 5 条：
+1.【严重】dedup key 改窄 = 一天一轮变一天 N 轮。现状 discovery.ts:121-124 是 daily:YYYY-MM-DD；单轮自带预算 maxRequests 400(认证)/58(未认证)（discovery.ts:37-44、:71-80），实测单轮约 26 次核心请求（deploy/discovery-drip.sh:21-22），未认证配额仅 60/h（discovery.ts:49-51）→ 两个 source 即 52 次，加一次手动就 403。建议保持单一 daily key，source 只作为 payload 里的 query 轮换维度（复用 discovery-drip.sh:20-25）。
+2.【严重】§3 手动触发复用当日 key = 静默无效。tasks/service.ts:190-226 命中唯一键即返回旧 taskId 且 created:false、不推进任何状态（:205-208）→ 自动轮跑完后管理员点「立即发现」拿到早就不动的旧 ID，接口仍 202。本仓已刻意区分：定时 daily:（scheduled.ts:79），手动 manual:${requestKey}（admin/discovery/route.ts:108-113）。建议手动用独立 key。
+3.【高】旧 key 未处理：0007:47 是 UNIQUE(task_type, deduplication_key)，旧 daily: 与新 discovery: 不冲突 → 同一天新旧两批都跑；且任务 failed 后不会被再去重，重试路径（constants.ts:59-64、handlers.ts:282-285）会对上游限流白白重试。
+4.【高】无单实例闸门：scheduling_group 没有串行语义（只在 0007:80 建了索引，claim 排序 service.ts:122-131 与组无关），手动+定时两个 key → 两行 → 同一批内被领走（main.ts:190-205、MAX_CONCURRENT_TASKS=4），消耗 2× 配额；300s 截止下还易被 recoverExpired 反复重排。
+5.【中】§4 的 RETRY_BACKOFF_MS/MAX_RECOVERABLE_ATTEMPTS 与发现任务耗时分布不匹配：单次上游超时 20s（github-discovery.ts:86-87）、retries:2（:151-155）、maxCandidates 12（discovery.ts:41）→ 最坏 12×3×20s 远超 TASK_DEADLINE_MS=300s（constants.ts:45）；超时重排后请求计数从 0 重来（requestsUsed 是适配器实例级，github-discovery.ts:160,304）。
+
+完整清单 P-01…P-09，另含：限流应映射成 skipped 终态而非 error 重试（wasRateLimited 已在 port 暴露，github-discovery.ts:74-81）；「按 source 拆分」与既有「按 query 轮换」是两套互不兼容的多源策略；索引本身无需改（task_type+dedup_key 的唯一约束已覆盖，idx_tasks_claimable 与 key 无关）；缺「今天跑了几轮、烧了多少请求」的当日汇总度量。
+
+两条落地建议：A（最小改造）不改天粒度，只补手动独立 key + 单实例闸门 + query 轮换，零配额增量实现目标；B（若坚持 source 维度）必须 maxRequests 按源数均分 + 每日总量落库 + 单实例闸门，缺一条就是把小问题换成「配额耗尽、发现停摆一整天」。
+
+前提核实：proposal.md:4「daily:${date}」与仓库一致（discovery.ts:121-124），前提成立。

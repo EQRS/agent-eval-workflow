@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n46-ownership-dispute"
+source = "ATB 扩题第 4 批（48→80）"
+
+[metadata]
+difficulty = "L3"
+category = "authorization"
+machine_type = "judgment"
+tags = ["atb","authorization","ownership","dispute","appeal"]
+subject = "插件归属争议的处理机制"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]

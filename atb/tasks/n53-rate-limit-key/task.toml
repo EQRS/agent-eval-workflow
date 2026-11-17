@@ -1,0 +1,25 @@
+schema_version = "1.0"
+
+[task]
+name = "atb/n53-rate-limit-key"
+source = "ATB 扩题第 6 批（L3-L4）"
+
+[metadata]
+difficulty = "L3"
+category = "security"
+machine_type = "judgment"
+tags = ["atb","security","ratelimit","key","anonymous"]
+subject = "限流维度的精细化改造"
+
+[verifier]
+criteria = "tests/criteria.md"
+scoring = "per-item"
+timeout_sec = 900.0
+
+[agent]
+budget_steps = 20
+
+[group]
+s_agents = 1
+t_agents = 3
+roles = ["安全工程师","性能工程师","SRE（运维）"]
